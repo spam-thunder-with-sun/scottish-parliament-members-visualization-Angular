@@ -14,6 +14,7 @@ export class LoadDataService{
   private static parties:any
   private static websites:any
   private static defaultProfileImagePath:string = '/assets/img/default-avatar-profile.png'
+  private static debug = false
 
   constructor(private http: HttpClient) {/*console.log("Costruttore load data")*/}
 
@@ -21,9 +22,9 @@ export class LoadDataService{
   {
     let myObservable: Observable<any>
 
-    if(LoadDataService.members == undefined || LoadDataService.members == null)
+    if(LoadDataService.debug || LoadDataService.members == undefined || LoadDataService.members == null)
       myObservable = this.http.get<any>('https://data.parliament.scot/api/members').pipe(map((members) => {
-          //console.log("Chiamata Api members")
+          console.log("Chiamata Api members")
 
           //Adding Name and Surname
           LoadDataService.members = Object.keys(members).map((id) => {
@@ -49,7 +50,7 @@ export class LoadDataService{
         }))
     else
       myObservable = new Observable((observer) =>{
-        //console.log("Ritorno members")
+        console.log("Ritorno members")
         observer.next(LoadDataService.members)
       })
 
@@ -60,15 +61,15 @@ export class LoadDataService{
   {
     let myObservable: Observable<any>
 
-    if(LoadDataService.memberparties == undefined || LoadDataService.memberparties == null)
+    if(LoadDataService.debug || LoadDataService.memberparties == undefined || LoadDataService.memberparties == null)
       myObservable = this.http.get<any>('https://data.parliament.scot/api/memberparties').pipe(map((memberparties) => {
-          //console.log("Chiamata Api memberparties")
+          console.log("Chiamata Api memberparties")
           LoadDataService.memberparties = memberparties
           return LoadDataService.memberparties
         }))
     else
       myObservable = new Observable((observer) => {
-        //console.log("Ritorno memberparties")
+        console.log("Ritorno memberparties")
         observer.next(LoadDataService.memberparties)
       })
 
@@ -79,15 +80,15 @@ export class LoadDataService{
   {
     let myObservable: Observable<any>
 
-    if(LoadDataService.parties == undefined || LoadDataService.parties == null)
+    if(LoadDataService.debug || LoadDataService.parties == undefined || LoadDataService.parties == null)
       myObservable = this.http.get<any>('https://data.parliament.scot/api/parties').pipe(map((parties) => {
-          //console.log("Chiamata Api memberparties")
+          console.log("Chiamata Api memberparties")
           LoadDataService.parties = parties
           return LoadDataService.parties
         }))
     else
       myObservable = new Observable((observer) => {
-        //console.log("Ritorno parties")
+        console.log("Ritorno parties")
         observer.next(LoadDataService.parties)
       })
 
@@ -98,15 +99,15 @@ export class LoadDataService{
   {
     let myObservable: Observable<any>
 
-    if(LoadDataService.websites == undefined || LoadDataService.websites == null)
+    if(LoadDataService.debug || LoadDataService.websites == undefined || LoadDataService.websites == null)
       myObservable = this.http.get<any>('https://data.parliament.scot/api/websites').pipe(map((websites) => {
-          //console.log("Chiamata Api websites")
+          console.log("Chiamata Api websites")
           LoadDataService.websites = websites
           return LoadDataService.websites
         }))
     else
       myObservable = new Observable((observer) => {
-        //console.log("Ritorno websites")
+        console.log("Ritorno websites")
         observer.next(LoadDataService.websites)
       })
 
@@ -124,9 +125,11 @@ export class LoadDataService{
     }))
   }
 
-  getMemberFullData(id:number) : any
+  getMemberFullData(id:number) : Observable<any>
   {
+    console.log("Full Data")
     return forkJoin([this.getMember(id), this.getMemberParties(), this.getParties(), this.getWebsites()]).pipe(map((results:any) => {
+      console.log("Elaboro Full Data")
       let member = results[0]
       let memberparties = results[1]
       let parties = results[2]

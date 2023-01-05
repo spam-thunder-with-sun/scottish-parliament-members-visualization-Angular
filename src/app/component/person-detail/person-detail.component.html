@@ -1,4 +1,4 @@
-<div class="center">
+<div class="center" *ngIf="member">
   <mat-card class="card w3-padding w3-margin" [ngClass]="{'w3-teal': member.GenderTypeID == 2, 'w3-pink': member.GenderTypeID == 1}">
     <mat-card-header>
       <mat-card-title><h1>{{member.Name}} {{member.Surname}}</h1></mat-card-title>
@@ -27,6 +27,10 @@
           <tr><td>{{party.ActualName}}</td><td>{{party.Abbreviation}}</td><td>{{party.From}}</td><td>{{party.Until}}</td></tr>
         </tbody>
       </table>
+    </mat-card-content>
+  </mat-card>
+</div>
+
       <!--
       <table mat-table [dataSource]="member.Parties" class="mat-elevation-z8 table">
         <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
@@ -42,12 +46,6 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     -->
-
-    </mat-card-content>
-  </mat-card>
-</div>
-
-
 
 <!--
   shows the birthdate (if available)

@@ -20,6 +20,8 @@ export class MembersComponent implements OnInit{
     this.dataLoader.getMembers().subscribe((data:any) => {
       this.members = data
     })
+
+    //this.members = this.dataLoader.getMembers()
   }
 }
 
