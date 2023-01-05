@@ -4,10 +4,12 @@
       <mat-card-title><h1>{{member.Name}} {{member.Surname}}</h1></mat-card-title>
     </mat-card-header>
     <div class="center">
-      <img mat-card-image *ngIf="member.PhotoURL != ''" src={{member.PhotoURL}} alt="Photo of {{member.ParliamentaryName}}" class="w3-padding w3-round" style="width:100%;max-width:700px" onerror="this.onerror=null; this.src='/assets/img/default-avatar-profile.png'">
+      <img mat-card-image *ngIf="member.PhotoURL != ''" src={{member.PhotoURL}} alt="Photo of {{member.ParliamentaryName}}" class="w3-padding w3-round" style="width:100%;max-width:700px"
+      onerror="this.onerror=null; this.src='assets/img/default-avatar-profile.png'">
     </div>
     <mat-card-content class="w3-margin-top">
       <h2>Personal Info</h2>
+      <h4 *ngIf="member.PersonID != undefined && member.PersonID != null ">Member Number: <b>{{member.PersonID}}</b></h4>
       <h4 *ngIf="member.BirthDate != undefined && member.BirthDate != null ">BirthDate: <b>{{member.BirthDate}}</b></h4>
       <h4 *ngIf="member.Notes">Notes: <b>{{member.Notes}}</b></h4>
       <ng-template *ngIf="member.Websites != undefined && member.Websites != null && member.Websites.length > 0; then websitesBlock" ></ng-template>

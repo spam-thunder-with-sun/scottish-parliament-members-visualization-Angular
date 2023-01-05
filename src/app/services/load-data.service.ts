@@ -16,15 +16,15 @@ export class LoadDataService{
   private static defaultProfileImagePath:string = '/assets/img/default-avatar-profile.png'
   private static debug = false
 
-  constructor(private http: HttpClient) {/*console.log("Costruttore load data")*/}
+  constructor(private http: HttpClient) {}
 
   getMembers():Observable<any>
   {
     let myObservable: Observable<any>
 
     if(LoadDataService.debug || LoadDataService.members == undefined || LoadDataService.members == null)
-      myObservable = this.http.get<any>('https://data.parliament.scot/api/members').pipe(map((members) => {
-          console.log("Chiamata Api members")
+    myObservable = this.http.get<any>('https://data.parliament.scot/api/members').pipe(map((members) => {
+          //console.log("Chiamata Api members")
 
           //Adding Name and Surname
           LoadDataService.members = Object.keys(members).map((id) => {
@@ -38,8 +38,6 @@ export class LoadDataService{
             if(members[id]['PhotoURL'] == "")
               members[id]['PhotoURL'] = LoadDataService.defaultProfileImagePath
 
-            //members[id]['PhotoURL'] = 'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg'
-
             return members[id]
           })
 
@@ -49,9 +47,9 @@ export class LoadDataService{
           return LoadDataService.members
         }))
     else
-      myObservable = new Observable((observer) =>{
-        console.log("Ritorno members")
+    myObservable = new Observable((observer) =>{
         observer.next(LoadDataService.members)
+        observer.complete()
       })
 
     return myObservable
@@ -62,15 +60,15 @@ export class LoadDataService{
     let myObservable: Observable<any>
 
     if(LoadDataService.debug || LoadDataService.memberparties == undefined || LoadDataService.memberparties == null)
-      myObservable = this.http.get<any>('https://data.parliament.scot/api/memberparties').pipe(map((memberparties) => {
-          console.log("Chiamata Api memberparties")
+    myObservable = this.http.get<any>('https://data.parliament.scot/api/memberparties').pipe(map((memberparties) => {
+          //console.log("Chiamata Api memberparties")
           LoadDataService.memberparties = memberparties
           return LoadDataService.memberparties
         }))
     else
-      myObservable = new Observable((observer) => {
-        console.log("Ritorno memberparties")
+    myObservable = new Observable((observer) => {
         observer.next(LoadDataService.memberparties)
+        observer.complete()
       })
 
     return myObservable
@@ -81,15 +79,15 @@ export class LoadDataService{
     let myObservable: Observable<any>
 
     if(LoadDataService.debug || LoadDataService.parties == undefined || LoadDataService.parties == null)
-      myObservable = this.http.get<any>('https://data.parliament.scot/api/parties').pipe(map((parties) => {
-          console.log("Chiamata Api memberparties")
+    myObservable = this.http.get<any>('https://data.parliament.scot/api/parties').pipe(map((parties) => {
+          //console.log("Chiamata Api memberparties")
           LoadDataService.parties = parties
           return LoadDataService.parties
         }))
     else
-      myObservable = new Observable((observer) => {
-        console.log("Ritorno parties")
+    myObservable = new Observable((observer) => {
         observer.next(LoadDataService.parties)
+        observer.complete()
       })
 
     return myObservable
@@ -100,15 +98,15 @@ export class LoadDataService{
     let myObservable: Observable<any>
 
     if(LoadDataService.debug || LoadDataService.websites == undefined || LoadDataService.websites == null)
-      myObservable = this.http.get<any>('https://data.parliament.scot/api/websites').pipe(map((websites) => {
-          console.log("Chiamata Api websites")
+    myObservable = this.http.get<any>('https://data.parliament.scot/api/websites').pipe(map((websites) => {
+          //console.log("Chiamata Api websites")
           LoadDataService.websites = websites
           return LoadDataService.websites
         }))
     else
-      myObservable = new Observable((observer) => {
-        console.log("Ritorno websites")
-        observer.next(LoadDataService.websites)
+    myObservable = new Observable((observer) => {
+      observer.next(LoadDataService.websites)
+      observer.complete()
       })
 
     return myObservable
@@ -119,17 +117,19 @@ export class LoadDataService{
     return this.getMembers().pipe(map((member) => {
       //Maybe implement binary serach
       //Low priority
+
       for(let i = 0; i < member.length; ++i)
         if(member[i]['PersonID'] == id)
           return member[i]
+
     }))
   }
 
   getMemberFullData(id:number) : Observable<any>
   {
-    console.log("Full Data")
+    //console.log("Full Data")
     return forkJoin([this.getMember(id), this.getMemberParties(), this.getParties(), this.getWebsites()]).pipe(map((results:any) => {
-      console.log("Elaboro Full Data")
+      //console.log("Elaboro Full Data")
       let member = results[0]
       let memberparties = results[1]
       let parties = results[2]
@@ -180,7 +180,7 @@ export class LoadDataService{
   {
     let websitesList = []
     for(let website of websites)
-      if(website['PersonID'] == personID)
+      if(website['PersonID'] == personID && website['WebURL'])
         websitesList.push(website['WebURL'])
 
     return websitesList

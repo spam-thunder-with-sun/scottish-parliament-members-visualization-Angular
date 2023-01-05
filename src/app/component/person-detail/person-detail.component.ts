@@ -16,12 +16,11 @@ export class PersonDetailComponent implements OnInit{
   constructor(private route: ActivatedRoute, private dataLoader:LoadDataService){}
 
   ngOnInit(): void{
-    console.log("PersonDetail")
     let id = +(this.route.snapshot.paramMap.get('id') ?? 0)
+    console.log("PersonDetail:" , id)
 
     this.dataLoader.getMemberFullData(id).subscribe((member:any) => {
       this.member = member
-      console.log("PersonDetail data arrived")
     })
   }
 }

@@ -15,7 +15,7 @@ export class MembersComponent implements OnInit{
   constructor(private route: ActivatedRoute, private dataLoader:LoadDataService){}
 
   ngOnInit():void {
-    //console.log("Members")
+    console.log("Members")
 
     this.dataLoader.getMembers().subscribe((data:any) => {
       this.members = data
