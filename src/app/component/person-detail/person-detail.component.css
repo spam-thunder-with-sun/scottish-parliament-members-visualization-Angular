@@ -1,0 +1,13 @@
+.card {
+  max-width: 800px;
+  margin-bottom: 8px;
+}
+
+.table {
+  width: 90%;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}

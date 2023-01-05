@@ -1,0 +1,60 @@
+<div class="center">
+  <mat-card class="card w3-padding w3-margin" [ngClass]="{'w3-teal': member.GenderTypeID == 2, 'w3-pink': member.GenderTypeID == 1}">
+    <mat-card-header>
+      <mat-card-title><h1>{{member.Name}} {{member.Surname}}</h1></mat-card-title>
+    </mat-card-header>
+    <div class="center">
+      <img mat-card-image *ngIf="member.PhotoURL != ''" src={{member.PhotoURL}} alt="Photo of {{member.ParliamentaryName}}" class="w3-padding w3-round" style="width:100%;max-width:700px" onerror="this.onerror=null; this.src='/assets/img/default-avatar-profile.png'">
+    </div>
+    <mat-card-content class="w3-margin-top">
+      <h2>Personal Info</h2>
+      <h4 *ngIf="member.BirthDate != undefined && member.BirthDate != null ">BirthDate: <b>{{member.BirthDate}}</b></h4>
+      <h4 *ngIf="member.Notes">Notes: <b>{{member.Notes}}</b></h4>
+      <ng-template *ngIf="member.Websites != undefined && member.Websites != null && member.Websites.length > 0; then websitesBlock" ></ng-template>
+      <ng-template #websitesBlock>
+        <h4>Websites:</h4>
+        <ul *ngFor="let website of member.Websites" class="">
+          <li><a href="{{website}}" target="_blank">{{website}}</a></li>
+        </ul>
+      </ng-template>
+      <h4>Parties List:</h4>
+      <table class="w3-table-all w3-white">
+        <th>Name</th>
+        <th>Abbreviation</th>
+        <th>From</th>
+        <th>Until</th>
+        <tbody *ngFor="let party of member.Parties">
+          <tr><td>{{party.ActualName}}</td><td>{{party.Abbreviation}}</td><td>{{party.From}}</td><td>{{party.Until}}</td></tr>
+        </tbody>
+      </table>
+      <!--
+      <table mat-table [dataSource]="member.Parties" class="mat-elevation-z8 table">
+        <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+          <th mat-header-cell *matHeaderCellDef>
+            {{column.header}}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{column.cell(row)}}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    -->
+
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+
+<!--
+  shows the birthdate (if available)
+• shows the picture (if available)
+• shows the party to which the parliamentary belongs (using
+https://data.parliament.scot/api/memberparties and
+https://data.parliament.scot/api/parties. Suggestion: create a service to cache (part of)
+the data.
+• shows her/his website (if available, from https://data.parliament.scot/api/websites )
+-->

@@ -1,0 +1,16 @@
+<div class="center">
+  <h1 class="w3-margin"><b>Scottish Parliament Members</b></h1>
+</div>
+<a *ngFor="let member of members" [routerLink]="['/personDetail/', member.PersonID]">
+  <mat-card class="card w3-margin w3-padding " [ngClass]="{'w3-teal': member.GenderTypeID == 2, 'w3-pink': member.GenderTypeID == 1}">
+    <mat-card-header class="w3-margin">
+      <mat-card-title>{{member.Name}} {{member.Surname}}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image src={{member.PhotoURL}} alt="Photo of {{member.Name}} {{member.Surname}}" class="w3-round w3-margin"
+    onerror="this.onerror=null; this.src='/assets/img/default-avatar-profile.png'">
+    <mat-card-content>
+    </mat-card-content>
+</mat-card>
+</a>
+
+
